@@ -1,50 +1,90 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import Header from "../components/Header.astro";
+import Sidebar from "../components/Sidebar.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+
+<!DOCTYPE html>
+<html
+>
+  <Header title="Mohamed Fouda" />
+  <body>
+    <div class="content">
+      <Sidebar selectedItem="home" />
+      <nav class="main">
+        <div class="container">
+          <main class="fold-content-container">
+            <div class="fold-content">
+              <h1>Hi, I'm Mohamed.<br />I build and break things with code & AI.</h1>
+              <p class="lead">
+Full-stack developer curious about all things AI and LLM red-teaming. I enjoy building cool web projects, breaking things (for good reasons), and learning something new every day.
+              </p>
+            </div>
+            <a href="mailto:muhammadbadr30@gmail.com" class="button w-button">Contact</a>
+          </main>
+          <div class="projects-section">
+            <!-- Software Development -->
+            <a href="/software-development" class="projects-container">
+              <div class="single-projects-category">
+                <div class="projects-category-image-container">
+                  <img src="./assets/browser.svg" loading="lazy" alt="" class="projects-category-image" />
+                </div>
+              </div>
+              <div class="single-projects-content">
+                <h4>Software Development</h4>
+                <div class="tech-tools-container">
+                  <div class="mini-label-white gray-color">Technologies &amp; tools</div>
+                  <div class="chips-container chips-container-small-width">
+                    <div class="single-chip small-chip">React</div>
+                    <div class="single-chip small-chip">Next.js</div>
+                    <div class="single-chip small-chip">Node.js</div>
+                    <div class="single-chip small-chip">MongoDB</div>
+                    <div class="single-chip small-chip">Heroku</div>
+                    <div class="single-chip small-chip">RabbitMQ</div>
+                    <div class="single-chip small-chip">Express.js</div>
+                    <div class="single-chip small-chip">TypeScript</div>
+                    <div class="single-chip small-chip">NestJS</div>
+                    <div class="single-chip small-chip">Angular</div>
+                    <div class="single-chip small-chip">Postgres</div>
+                    <div class="single-chip small-chip">Linode</div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <!-- DevOps & Cloud -->
+            <a href="/devops" class="projects-container">
+              <div class="single-projects-category">
+                <div class="projects-category-image-container devops-img">
+                  <img src="./assets/database.svg" loading="lazy" alt="" class="projects-category-image" />
+                </div>
+              </div>
+              <div class="single-projects-content">
+                <h4>LLM Red Teaming</h4>
+                <div class="tech-tools-container">
+                  <div class="mini-label-white gray-color">Technologies &amp; tools</div>
+                  <div class="chips-container chips-container-small-width">
+                    <div class="single-chip small-chip">Terraform</div>
+                    <div class="single-chip small-chip">Azure</div>
+                    <div class="single-chip small-chip">AWS</div>
+                    <div class="single-chip small-chip">Docker</div>
+                    <div class="single-chip small-chip">Kubernetes</div>
+                    <div class="single-chip small-chip">GitLab CI/CD</div>
+                    <div class="single-chip small-chip">RKE</div>
+                    <div class="single-chip small-chip">Node.js</div>
+                    <div class="single-chip small-chip">RabbitMQ</div>
+                    <div class="single-chip small-chip">Linux</div>
+                    <div class="single-chip small-chip">Bash</div>
+                    <div class="single-chip small-chip">Grafana</div>
+                    <div class="single-chip small-chip">Prometheus</div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+  </body>
 </html>
