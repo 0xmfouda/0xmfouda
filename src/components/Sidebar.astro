@@ -42,8 +42,8 @@ const { selectedItem } = Astro.props;
         />
         <div>Home</div>
       </a>
-      <!-- <a
-        href="/software-development"
+      <!-- href="/software-development" -->
+      <a
         class={`nav-link-container w-inline-block ${
           selectedItem === 'software-development' ? 'w--current' : ''
         }`}
@@ -59,8 +59,8 @@ const { selectedItem } = Astro.props;
         />
         <div>Software development</div>
       </a>
+      <!-- href="/devops" -->
       <a
-        href="/devops"
         class={`nav-link-container w-inline-block ${
           selectedItem === 'devops' ? 'w--current' : ''
         }`}
@@ -73,8 +73,8 @@ const { selectedItem } = Astro.props;
         />
         <div>DevOps</div>
       </a>
+      <!-- href="/personal-projects" -->
       <a
-        href="/personal-projects"
         class={`nav-link-container w-inline-block ${
           selectedItem === 'personal-projects' ? 'w--current' : ''
         }`}
@@ -102,7 +102,7 @@ const { selectedItem } = Astro.props;
         alt=""
         class="navbar-icon"
       />
-    </div> -->
+    </div>
   </div>
 
   <script>
