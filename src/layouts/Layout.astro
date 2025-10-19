@@ -5,57 +5,90 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 /* ======== Fonts ============ */
-import { siteConfig } from "@/config";
+import { siteConfig, profileConfig } from "@/config";
+import type { Favicon } from "@/types/config";
+import { defaultFavicons } from "@/constants/icons";
+import { url } from "@/utils/url-utils";
+
 interface Props {
-  title: string;
+  title?: string;
+  banner?: string;
+  description?: string;
+  lang?: string;
+  setOGTypeArticle?: boolean;
 }
 
-/* ======== Language ============ */
-const lang = siteConfig.lang;
+let { title, lang, description, setOGTypeArticle } = Astro.props;
 
-const { title } = Astro.props;
+let pageTitle: string;
+if (title) {
+  pageTitle = `${title} - ${siteConfig.title}`;
+} else {
+  pageTitle = `${siteConfig.title} - ${siteConfig.subtitle}`;
+}
+
+if (!lang) {
+  lang = `${siteConfig.lang}`;
+}
+
+const favicons: Favicon[] =
+  siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html
+  lang={lang}
+  class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]"
+  data-overlayscrollbars-initialize
+>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
+    <meta name="description" content={description || pageTitle} />
+    <meta name="author" content={profileConfig.name} />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+
+    <meta property="og:site_name" content={siteConfig.title} />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description || pageTitle} />
+    {
+      setOGTypeArticle ? (
+        <meta property="og:type" content="article" />
+      ) : (
+        <meta property="og:type" content="website" />
+      )
+    }
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description || pageTitle} />
+
+    {
+      favicons.map((favicon) => (
+        <link
+          rel="icon"
+          href={favicon.src.startsWith("/") ? url(favicon.src) : favicon.src}
+          sizes={favicon.sizes}
+          media={favicon.theme && `(prefers-color-scheme: ${favicon.theme})`}
+        />
+      ))
+    }
+
+    <slot name="head" />
+
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={profileConfig.name}
+      href={`${Astro.site}rss.xml`}
+    />
+
+    <title>{pageTitle}</title>
   </head>
+
   <body>
     <slot />
   </body>
 </html>
-<style is:global>
-  :root {
-    --accent: 136, 58, 234;
-    --accent-light: 224, 204, 250;
-    --accent-dark: 49, 10, 101;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      rgb(var(--accent-light)) 30%,
-      white 60%
-    );
-  }
-  html {
-    font-family: system-ui, sans-serif;
-    background: #13151a;
-    background-size: 224px;
-  }
-  code {
-    font-family:
-      Menlo,
-      Monaco,
-      Lucida Console,
-      Liberation Mono,
-      DejaVu Sans Mono,
-      Bitstream Vera Sans Mono,
-      Courier New,
-      monospace;
-  }
-</style>

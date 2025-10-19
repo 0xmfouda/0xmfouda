@@ -1,0 +1,51 @@
+---
+import Layout from "./Layout.astro";
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  title?: string;
+  banner?: string;
+  description?: string;
+  lang?: string;
+  setOGTypeArticle?: boolean;
+  headings?: MarkdownHeading[];
+}
+
+const {
+  title,
+  banner,
+  description,
+  lang,
+  setOGTypeArticle,
+  headings = [],
+} = Astro.props;
+---
+
+<Layout
+  title={title}
+  banner={banner}
+  description={description}
+  lang={lang}
+  setOGTypeArticle={setOGTypeArticle}
+/>
+
+<slot slot="head" name="head" />
+<div
+  id="top-row"
+  class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto"
+  class:list={[""]}
+>
+  <div
+    id="navbar-wrapper"
+    class="pointer-events-auto sticky top-0 transition-all"
+  >
+    <!-- <Navbar /> -->
+    Navbar
+  </div>
+</div>
+
+<div>Banner</div>
+
+<div>Main Content</div>
+
+<div>Under the banner</div>
