@@ -43,12 +43,13 @@ const { selectedItem } = Astro.props;
         <div>Home</div>
       </a>
 
-      <!-- href="/blog" -->
+      <!-- href="/software" -->
       <a
+        href="/software"
         class={`nav-link-container w-inline-block ${
-          selectedItem === "blog" ? "w--current" : ""
+          selectedItem === "software" ? "w--current" : ""
         }`}
-        aria-current={selectedItem === "blog" ? "page" : undefined}
+        aria-current={selectedItem === "software" ? "page" : undefined}
       >
         <img
           src="/assets/code.svg"
@@ -56,21 +57,24 @@ const { selectedItem } = Astro.props;
           alt=""
           class="nav-link-image"
         />
-        <div>Blog</div>
+        <div>Software Development</div>
       </a>
-      <!-- href="/personal-projects" -->
+
+      <!-- href="/llm" -->
       <a
+        href="/llm"
         class={`nav-link-container w-inline-block ${
-          selectedItem === "personal-projects" ? "w--current" : ""
+          selectedItem === "llm" ? "w--current" : ""
         }`}
+        aria-current={selectedItem === "llm" ? "page" : undefined}
       >
         <img
-          src="/assets/favorite.svg"
+          src="/assets/code.svg"
           loading="eager"
           alt=""
           class="nav-link-image"
         />
-        <div>Personal projects</div>
+        <div>LLM Red Teaming</div>
       </a>
     </nav>
 

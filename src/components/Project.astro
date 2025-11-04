@@ -4,12 +4,13 @@ interface Props {
   imageAlt: string;
   title: string;
   technologies: string[];
+  href: string;
 }
 
-const { imageSrc, imageAlt, title, technologies } = Astro.props;
+const { imageSrc, imageAlt, title, technologies, href } = Astro.props;
 ---
 
-<div class="projects-container">
+<a href={href} class="projects-container">
   <div class="single-projects-category">
     <div class="projects-category-image-container">
       <img
@@ -33,4 +34,4 @@ const { imageSrc, imageAlt, title, technologies } = Astro.props;
       </div>
     </div>
   </div>
-</div>
+</a>
