@@ -1,0 +1,36 @@
+---
+interface Props {
+  imageSrc: string;
+  imageAlt: string;
+  title: string;
+  technologies: string[];
+}
+
+const { imageSrc, imageAlt, title, technologies } = Astro.props;
+---
+
+<div class="projects-container">
+  <div class="single-projects-category">
+    <div class="projects-category-image-container">
+      <img
+        src={imageSrc}
+        loading="lazy"
+        alt={imageAlt}
+        class="projects-category-image"
+      />
+    </div>
+  </div>
+  <div class="single-projects-content">
+    <h4>{title}</h4>
+    <div class="tech-tools-container">
+      <div class="mini-label-white gray-color">Technologies &amp; tools</div>
+      <div class="chips-container chips-container-small-width">
+        {
+          technologies.map((tech) => (
+            <div class="single-chip small-chip">{tech}</div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>
