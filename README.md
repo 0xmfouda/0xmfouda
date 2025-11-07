@@ -1,0 +1,13 @@
+- Boxes
+  - https://kai.bi/
+  - https://github.dev/ccbikai/astro-aria
+- Astro Collection s
+  - https://docs.astro.build/en/guides/content-collections/
+- Article, Code
+  - https://astro-sphere-demo.vercel.app/blog/02-astro-sphere-getting-started
+  - https://github.com/markhorn-dev/astro-sphere
+- Fonts
+  - https://dante-astro-theme.netlify.app/blog/post-14/
+  - https://github.dev/JustGoodUI/dante-astro-theme/blob/main/src/pages/index.astro
+- Work Experience
+  - https://github.com/markhorn-dev/astro-nano

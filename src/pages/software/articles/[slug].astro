@@ -1,0 +1,21 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const articlesEntries = await getCollection("software");
+  return articlesEntries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Layout title={entry.data.title} selectedItem="">
+  <div style="margin-left: auto; margin-right: auto;">
+    <Content />
+  </div>
+</Layout>

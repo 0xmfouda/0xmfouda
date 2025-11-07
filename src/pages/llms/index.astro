@@ -1,0 +1,123 @@
+---
+import Articles from "../../components/Articles.astro";
+import Header from "../../components/Header.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import Button from "../../components/widgets/Button.astro";
+
+import { getCollection } from "astro:content";
+
+const allArticles = await getCollection("llms");
+
+function parseDate(dateStr: string) {
+  const [month, day, year] = dateStr.split(" ");
+  return new Date(`${month} ${parseInt(day)}, ${year}`);
+}
+
+const sortedArticles = allArticles
+  .map((article) => ({
+    ...article,
+    date: parseDate(article.data.date),
+  }))
+  .sort((a, b) => b.date.getTime() - a.date.getTime());
+
+const articlesLoop = sortedArticles.slice(0, 3).map((article) => {
+  return {
+    ...(article.data || {}),
+    link: `software/articles/${article.slug}`,
+  };
+});
+---
+
+<!doctype html>
+<html>
+  <Header title="Personal Projects | Sam Bernstein" />
+  <body>
+    <div class="content">
+      <Sidebar selectedItem="llms" />
+      <nav class="main">
+        <div class="container">
+          <div class="back-nav-container">
+            <a href="/" class="back-nav-button w-inline-block"
+              ><img
+                src="/assets/back.svg"
+                loading="lazy"
+                alt=""
+                class="back-nav-img"
+              />
+              <div>Back</div></a
+            >
+          </div>
+          <div class="content-container">
+            <h1>Blogging...</h1>
+            <p class="section-description">
+              Along with coding I also like to write about life and technology.
+              Here are some of my recent posts.
+            </p>
+            <section class="blog_container">
+              <!-- Article with subscriotion box -->
+              <div class="blog_layout">
+                <!-- Posts -->
+
+                <div class="articles_main">
+
+                  {
+                    articlesLoop.length == 0 ? (
+                      <h4 align="center">No Articles</h4>
+                    ) : (
+                  <Articles loop={articlesLoop} />
+
+                  <div class="articles_actions">
+                    <Button text="View All My Writing" link="/posts" />
+                  </div>
+                    )
+                  }
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </body>
+</html>
+
+<!-- Layout -->
+
+<style>
+  .blog_container {
+    width: 100%;
+    max-width: 56rem; /* roughly Tailwind max-w-4xl */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.75rem; /* my-7 */
+    margin-bottom: 1.75rem;
+    padding-left: 1rem; /* small horizontal padding on small screens */
+    padding-right: 1rem;
+  }
+
+  /* Layout */
+  .blog_layout {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .articles_main {
+    width: 100%;
+    margin: 0 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem; /* space-y-7 */
+  }
+
+  .articles_actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+</style>

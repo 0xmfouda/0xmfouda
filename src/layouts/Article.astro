@@ -1,0 +1,152 @@
+---
+import Layout from "./Layout.astro";
+---
+
+<Layout title="Mohamed Fouda" selectedItem="home">
+  <nav class="main">
+    <div class="container">
+      <main class="fold-content-container">
+        <article class="markdown">
+          <slot />
+        </article>
+      </main>
+    </div>
+  </nav>
+</Layout>
+
+<style>
+  .markdown {
+    width: 100%;
+    max-width: 42rem; /* max-w-2xl */
+    margin-left: auto; /* mx-auto */
+    margin-right: auto;
+    margin-bottom: 5rem; /* mb-20 */
+    padding-left: 1.75rem; /* px-7 */
+    padding-right: 1.75rem;
+    font-size: 0.875rem; /* prose-sm base font size */
+    line-height: 1.6;
+    color: #1f2937; /* neutral-800 approx */
+  }
+
+  /* Larger screens (lg:px-0 + lg:prose-lg) */
+  @media (min-width: 1024px) {
+    .markdown {
+      padding-left: 0;
+      padding-right: 0;
+      font-size: 1.125rem; /* prose-lg font size */
+    }
+  }
+
+  /* Dark mode (dark:prose-invert) */
+  @media (prefers-color-scheme: dark) {
+    .article-content {
+      color: #e5e7eb; /* text-neutral-200 */
+    }
+
+    .article-content a {
+      color: #93c5fd; /* links in dark mode */
+    }
+
+    .article-content code {
+      background-color: #1f2937;
+    }
+  }
+
+  /* Optional: style headings, lists, etc. like Tailwind's prose */
+  .article-content h1,
+  .article-content h2,
+  .article-content h3 {
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.25;
+  }
+
+  .article-content p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  .article-content ul,
+  .article-content ol {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-left: 1.25em;
+  }
+
+  /* Global Markdown container */
+  .markdown {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  /* Code blocks (pre) */
+  .markdown .astro-code {
+    background: #1e1e1e; /* Dark bg */
+    border: 1px solid #2d2d2d; /* Subtle border */
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    font-size: 0.875em; /* Slightly smaller */
+    position: relative;
+  }
+
+  /* Inline code */
+  .markdown code {
+    background: #f1f1f1;
+    color: #d63384;
+    padding: 0.125em 0.25em;
+    border-radius: 4px;
+    font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+  }
+
+  /* Syntax highlighting (Prism tokens) - Customize as needed */
+  .markdown .token.comment {
+    color: #6a9955;
+  } /* Green comments */
+  .markdown .token.keyword {
+    color: #569cd6;
+  } /* Blue keywords */
+  .markdown .token.string {
+    color: #ce9178;
+  } /* Orange strings */
+  .markdown .token.function {
+    color: #dcdcaa;
+  } /* Yellow functions */
+  .markdown .token.number {
+    color: #b5cea8;
+  } /* Light green numbers */
+  .markdown .token.boolean {
+    color: #569cd6;
+  } /* Blue booleans */
+  .markdown .token.property {
+    color: #9cdcfe;
+  } /* Light blue properties */
+  .markdown .token.operator {
+    color: #d4d4d4;
+  } /* Gray operators */
+  .markdown .token.punctuation {
+    color: #d4d4d4;
+  } /* Gray punctuation */
+
+  /* Line numbers (optional, if using Prism line-numbers plugin) */
+  .markdown pre[class*="language-"] {
+    counter-reset: line;
+  }
+  .markdown pre[class*="language-"] > code {
+    counter-increment: line;
+  }
+  .markdown pre[class*="language-"] > code:before {
+    content: counter(line);
+    display: inline-block;
+    width: 2em;
+    text-align: right;
+    color: #858585;
+    user-select: none;
+    margin-right: 1em;
+    padding-right: 0.5em;
+  }
+</style>
