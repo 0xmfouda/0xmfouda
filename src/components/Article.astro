@@ -1,0 +1,175 @@
+---
+const { loop } = Astro.props;
+---
+
+{
+  loop.map((article) => (
+    <div class="article-card" onclick={`location.href = '${article.link}'`}>
+      <div class="article-card__shadow" />
+      <div class="article-card__border" />
+      <div class="article-card__content">
+        <h2 class="article-card__title">
+          <a href={article.link}>{article.title}</a>
+          <svg
+            class="article-card__icon"
+            viewBox="0 0 13 15"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline
+                class="article-card__arrow"
+                points="5.33333333 0 10.8333333 5.5 5.33333333 11"
+              />
+              <line
+                class="article-card__line"
+                x1="10.8333333"
+                y1="5.5"
+                x2="0.833333333"
+                y2="5.16666667"
+              />
+            </g>
+          </svg>
+        </h2>
+        <p class="article-card__description">{article.desc}</p>
+        <div class="article-card__date">Posted on {article.date}</div>
+      </div>
+    </div>
+  ))
+}
+
+<style>
+  .article-card {
+    position: relative;
+    border: 1px dashed transparent;
+    border-radius: 1rem; /* rounded-2xl */
+    padding: 1.75rem; /* p-7 */
+    cursor: pointer;
+    transition: transform 0.3s ease-out;
+  }
+
+  /* Top shadow layer */
+  .article-card__shadow {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border: 1px dashed #d1d5db; /* neutral-300 */
+    border-radius: 1rem;
+    transition: transform 0.3s ease-out;
+  }
+
+  /* Bottom shadow layer */
+  .article-card__border {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    border: 1px dashed #d1d5db;
+    border-radius: 1rem;
+    transition: transform 0.3s ease-out;
+  }
+
+  /* Foreground content */
+  .article-card__content {
+    position: relative;
+    z-index: 30;
+    transition: transform 0.3s ease-out;
+  }
+
+  /* Hover effect (simulate 3D lift) */
+  .article-card:hover .article-card__shadow {
+    transform: translate(-4px, -4px);
+  }
+  .article-card:hover .article-card__border {
+    transform: translate(4px, 4px);
+  }
+  .article-card:hover .article-card__content {
+    transform: translate(-4px, -4px);
+  }
+
+  /* Title */
+  .article-card__title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  .article-card__title a {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #111827;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .article-card__title a:hover {
+    text-decoration: underline;
+  }
+
+  /* Arrow icon */
+  .article-card__icon {
+    width: 0.625rem;
+    height: 0.625rem;
+    margin-left: 0.25rem;
+    transform: translate(-4px, 2px);
+    transition: all 0.2s ease-in-out;
+  }
+  .article-card:hover .article-card__icon {
+    transform: translate(0, 2px);
+  }
+
+  /* Animated arrow elements */
+  .article-card__arrow,
+  .article-card__line {
+    opacity: 0;
+    transition: all 0.2s ease-out;
+  }
+  .article-card:hover .article-card__arrow,
+  .article-card:hover .article-card__line {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Description */
+  .article-card__description {
+    font-size: 0.875rem;
+    color: #525252;
+    margin: 0;
+  }
+
+  /* Date */
+  .article-card__date {
+    margin-top: 0.625rem; /* mt-2.5 */
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #262626;
+  }
+
+  /* Dark mode */
+  @media (prefers-color-scheme: dark) {
+    .article-card__shadow {
+      background: rgba(28, 28, 28, 0.24);
+      border-color: #525252; /* dark:border-neutral-600 */
+    }
+    .article-card__border {
+      border-color: #525252;
+    }
+    .article-card__title a {
+      color: #f5f5f5;
+    }
+    .article-card__description {
+      color: #a3a3a3;
+    }
+    .article-card__date {
+      color: #d4d4d4;
+    }
+  }
+</style>

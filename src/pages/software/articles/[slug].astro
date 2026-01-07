@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
+import ArticleContent from "../../../components/ArticleContent.astro";
 
 export async function getStaticPaths() {
   const articlesEntries = await getCollection("software");
@@ -14,8 +15,20 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
 
-<Layout title={entry.data.title} selectedItem="">
-  <div style="margin-left: auto; margin-right: auto;">
-    <Content />
-  </div>
+<Layout title={entry.data.title} selectedItem="software">
+  <nav class="main">
+    <div class="container">
+      <main class="fold-content-container">
+        <ArticleContent 
+          title={entry.data.title}
+          date={entry.data.date}
+          description={entry.data.desc}
+          category="Software Development"
+        >
+          <Content />
+        </ArticleContent>
+      </main>
+    </div>
+  </nav>
 </Layout>
+
