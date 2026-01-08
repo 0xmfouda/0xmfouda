@@ -2,8 +2,7 @@
 import Articles from "../../../components/Articles.astro";
 import Header from "../../../components/Header.astro";
 import Sidebar from "../../../components/Sidebar.astro";
-import Button from "../../../components/widgets/Button.astro";
-import { sections } from "../../../sections";
+import { sections, type SectionId } from "../../../sections";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -14,7 +13,7 @@ export async function getStaticPaths() {
 }
 
 const { section } = Astro.props;
-const allArticles = await getCollection(section.id as any);
+const allArticles = await getCollection(section.id as SectionId);
 
 function parseDate(dateStr: string) {
   const [month, day, year] = dateStr.split(" ");
@@ -72,7 +71,7 @@ const articlesLoop = sortedArticles.map((article) => {
                 <div class="articles_main">
                   {
                     articlesLoop.length == 0 ? (
-                      <h4 align="center">No Articles</h4>
+                      <h4 class="text-center">No Articles</h4>
                     ) : (
                       <Articles loop={articlesLoop} />
                     )
@@ -125,5 +124,9 @@ const articlesLoop = sortedArticles.map((article) => {
     width: 100%;
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
+  }
+
+  .text-center {
+    text-align: center;
   }
 </style>

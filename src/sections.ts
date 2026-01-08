@@ -7,7 +7,7 @@ export interface Section {
   technologies?: string[]; // Optional list of technologies related to the section
 }
 
-export const sections: Section[] = [
+export const sections = [
   {
     id: "software",
     name: "Software Development",
@@ -23,9 +23,12 @@ export const sections: Section[] = [
     icon: "/assets/code.svg",
     description:
       "Building beautiful and functional user interfaces is my passion.",
+    quote: "",
     technologies: ["TypeScript", "React", "Node.js", "Astro", "TailwindCSS"],
   },
-];
+] as const satisfies readonly Section[];
+
+export type SectionId = (typeof sections)[number]["id"];
 
 export function getSection(id: string): Section | undefined {
   return sections.find((s) => s.id === id);
