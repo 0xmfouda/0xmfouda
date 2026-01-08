@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import ArticleContent from "../../../components/ArticleContent.astro";
+import { sections } from "../../../sections";
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const section of sections) {
+    try {
+      const articlesEntries = await getCollection(section.id as any);
+      if (articlesEntries) {
+        for (const entry of articlesEntries) {
+          paths.push({
+            params: { section: section.id, slug: entry.data.slug },
+            props: { entry, section },
+          });
+        }
+      }
+    } catch (e) {
+      // Collection might not exist yet or be empty
+      console.warn(`Could not load collection for section: ${section.id}`, e);
+    }
+  }
+  return paths;
+}
+
+const { entry, section } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Layout title={entry.data.title} selectedItem={section.id}>
+  <nav class="main">
+    <div class="container">
+      <main class="fold-content-container">
+        <ArticleContent
+          title={entry.data.title}
+          date={entry.data.date}
+          description={entry.data.desc}
+          category={section.name}
+        >
+          <Content />
+        </ArticleContent>
+      </main>
+    </div>
+  </nav>
+</Layout>

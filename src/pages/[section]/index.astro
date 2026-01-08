@@ -3,10 +3,19 @@ import Articles from "../../components/Articles.astro";
 import Header from "../../components/Header.astro";
 import Sidebar from "../../components/Sidebar.astro";
 import Button from "../../components/widgets/Button.astro";
+import { sections } from "../../sections";
 
 import { getCollection } from "astro:content";
 
-const allArticles = await getCollection("llms");
+export async function getStaticPaths() {
+  return sections.map((section) => ({
+    params: { section: section.id },
+    props: { section },
+  }));
+}
+
+const { section } = Astro.props;
+const allArticles = await getCollection(section.id as any);
 
 function parseDate(dateStr: string) {
   const [month, day, year] = dateStr.split(" ");
@@ -23,7 +32,7 @@ const sortedArticles = allArticles
 const articlesLoop = sortedArticles.slice(0, 3).map((article) => {
   return {
     ...(article.data || {}),
-    link: `software/articles/${article.slug}`,
+    link: `/${section.id}/articles/${article.data.slug}`,
   };
 });
 ---
@@ -33,7 +42,7 @@ const articlesLoop = sortedArticles.slice(0, 3).map((article) => {
   <Header title="Personal Projects | Sam Bernstein" />
   <body>
     <div class="content">
-      <Sidebar selectedItem="llms" />
+      <Sidebar selectedItem={section.id} />
       <nav class="main">
         <div class="container">
           <div class="back-nav-container">
@@ -49,28 +58,32 @@ const articlesLoop = sortedArticles.slice(0, 3).map((article) => {
           </div>
           <div class="content-container">
             <h1>Blogging...</h1>
-            <p class="section-description">
-              Along with coding I also like to write about life and technology.
-              Here are some of my recent posts.
-            </p>
+            {section.quote ? (
+               <i class="section-description">{section.description}</i>
+            ) : (
+               <p class="section-description">{section.description}</p>
+            )}
+           
             <section class="blog_container">
               <!-- Article with subscriotion box -->
               <div class="blog_layout">
                 <!-- Posts -->
 
                 <div class="articles_main">
-
-                  {
+                   {
                     articlesLoop.length == 0 ? (
                       <h4 align="center">No Articles</h4>
                     ) : (
-                  <Articles loop={articlesLoop} />
+                      <Articles loop={articlesLoop} />
 
-                  <div class="articles_actions">
-                    <Button text="View All My Writing" link="/posts" />
-                  </div>
+                      <div class="articles_actions">
+                        <Button
+                          text="View All My Writing"
+                          link={`/${section.id}/articles`}
+                        />
+                      </div>
                     )
-                  }
+                   }
                 </div>
               </div>
             </section>

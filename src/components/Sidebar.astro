@@ -1,5 +1,6 @@
 ---
 const { selectedItem } = Astro.props;
+import { sections } from "../sections";
 ---
 
 <aside
@@ -43,39 +44,17 @@ const { selectedItem } = Astro.props;
         <div>Home</div>
       </a>
 
-      <!-- href="/software" -->
-      <a
-        href="/software"
-        class={`nav-link-container w-inline-block ${
-          selectedItem === "software" ? "w--current" : ""
-        }`}
-        aria-current={selectedItem === "software" ? "page" : undefined}
-      >
-        <img
-          src="/assets/code.svg"
-          loading="eager"
-          alt=""
-          class="nav-link-image"
-        />
-        <div>Software Development</div>
-      </a>
-
-      <!-- href="/llm" -->
-      <a
-        href="/llms"
-        class={`nav-link-container w-inline-block ${
-          selectedItem === "llms" ? "w--current" : ""
-        }`}
-        aria-current={selectedItem === "llms" ? "page" : undefined}
-      >
-        <img
-          src="/assets/code.svg"
-          loading="eager"
-          alt=""
-          class="nav-link-image"
-        />
-        <div>LLM Red Teaming</div>
-      </a>
+      {
+        sections.map((section) => (
+          <a
+            href={`/${section.id}`}
+            class={`nav-link-container ${selectedItem === section.id ? "w--current" : ""}`}
+          >
+            <img src={section.icon} alt="" class="nav-link-image" />
+            <div>{section.name}</div>
+          </a>
+        ))
+      }
     </nav>
 
     <div
