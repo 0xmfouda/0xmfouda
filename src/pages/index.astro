@@ -1,6 +1,7 @@
 ---
 import Layout from "./../layouts/Layout.astro";
 import Project from "../components/Project.astro";
+import { sections } from "../sections";
 ---
 
 <Layout title="Mohamed Fouda" selectedItem="home">
@@ -21,29 +22,17 @@ import Project from "../components/Project.astro";
         >
       </main>
       <div class="projects-section">
-        <Project
-          imageSrc="./assets/browser.svg"
-          imageAlt=""
-          title="Software Development"
-          technologies={[
-            "React",
-            "Next.js",
-            "Node.js",
-            "MongoDB",
-            "RabbitMQ",
-            "AWS",
-            "Nest.js",
-            "PostgreSQL",
-          ]}
-          href="/software"
-        />
-        <Project
-          imageSrc="./assets/database.svg"
-          imageAlt=""
-          title="LLM Red Teaming"
-          technologies={["Python", "Higging Face", "LangChain"]}
-          href="/llms"
-        />
+        {
+          sections.map((section) => (
+            <Project
+              title={section.name}
+              href={`/${section.id}`}
+              imageSrc={section.icon}
+              imageAlt={section.name}
+              technologies={section.technologies || []}
+            />
+          ))
+        }
       </div>
     </div>
   </nav>

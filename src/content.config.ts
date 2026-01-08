@@ -1,5 +1,5 @@
+import { sections } from "./sections";
 import { defineCollection, z } from "astro:content";
-
 import { glob } from "astro/loaders";
 
 const articleSchema = z.object({
@@ -11,22 +11,17 @@ const articleSchema = z.object({
 
 export type Article = z.infer<typeof articleSchema>;
 
-const software = defineCollection({
-  loader: glob({
-    pattern: "**/*.md",
-    base: "./src/content/software",
-  }),
-  schema: articleSchema,
-});
-const llms = defineCollection({
-  loader: glob({
-    pattern: "**/*.md",
-    base: "./src/content/llms",
-  }),
-  schema: articleSchema,
-});
-
-export const collections = {
-  software,
-  llms,
-};
+// Dynamically create collections for each section
+const collections = Object.fromEntries(
+  sections.map((section) => [
+    section.id,
+    defineCollection({
+      loader: glob({
+        pattern: "**/*.md",
+        base: `./src/content/${section.id}`,
+      }),
+      schema: articleSchema,
+    }),
+  ])
+);
+export { collections };
