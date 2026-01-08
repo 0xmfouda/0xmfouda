@@ -1,14 +1,14 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
 import ArticleContent from "../../../components/ArticleContent.astro";
-import { sections } from "../../../sections";
+import { sections, type SectionId } from "../../../sections";
 
 export async function getStaticPaths() {
   const paths = [];
   for (const section of sections) {
     try {
-      const articlesEntries = await getCollection(section.id as any);
+      const articlesEntries = await getCollection(section.id as SectionId);
       if (articlesEntries) {
         for (const entry of articlesEntries) {
           paths.push({
@@ -24,6 +24,11 @@ export async function getStaticPaths() {
   }
   return paths;
 }
+
+type Props = {
+  entry: CollectionEntry<SectionId>;
+  section: (typeof sections)[number];
+};
 
 const { entry, section } = Astro.props;
 const { Content } = await render(entry);
