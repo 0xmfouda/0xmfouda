@@ -72,7 +72,7 @@ const articlesLoop = sortedArticles.slice(0, 3).map((article) => {
                 <div class="articles_main">
                    {
                     articlesLoop.length == 0 ? (
-                      <h4 align="center">No Articles</h4>
+                      <h4 class="align-center">No Articles</h4>
                     ) : (
                       <Articles loop={articlesLoop} />
 
@@ -132,5 +132,8 @@ const articlesLoop = sortedArticles.slice(0, 3).map((article) => {
     width: 100%;
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
+  }
+  .align-center {
+    text-align: center;
   }
 </style>
