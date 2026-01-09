@@ -3,7 +3,7 @@ import Articles from "../../components/Articles.astro";
 import Header from "../../components/Header.astro";
 import Sidebar from "../../components/Sidebar.astro";
 import Button from "../../components/widgets/Button.astro";
-import { sections } from "../../sections";
+import { sections, type SectionId } from "../../sections";
 
 import { getCollection } from "astro:content";
 
@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 }
 
 const { section } = Astro.props;
-const allArticles = await getCollection(section.id as any);
+const allArticles = await getCollection(section.id as SectionId);
 
 function parseDate(dateStr: string) {
   const [month, day, year] = dateStr.split(" ");
@@ -39,7 +39,7 @@ const articlesLoop = sortedArticles.slice(0, 3).map((article) => {
 
 <!doctype html>
 <html>
-  <Header title="Personal Projects | Sam Bernstein" />
+  <Header title=`${section.id} | MF`` />
   <body>
     <div class="content">
       <Sidebar selectedItem={section.id} />
