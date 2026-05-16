@@ -31,18 +31,25 @@ type Props = {
 };
 
 const { entry, section } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+
+// Rough reading-time estimate at ~220 wpm
+const wordCount = (entry.body ?? "").trim().split(/\s+/).length;
+const minutes = Math.max(1, Math.ceil(wordCount / 220));
+const readingTime = `${minutes} min read`;
 ---
 
 <Layout title={entry.data.title} selectedItem={section.id}>
-  <nav class="main">
-    <div class="container">
+  <nav class="main main--article">
+    <div class="container container--wide">
       <main class="fold-content-container">
         <ArticleContent
           title={entry.data.title}
           date={entry.data.date}
           description={entry.data.desc}
           category={section.name}
+          headings={headings}
+          readingTime={readingTime}
         >
           <Content />
         </ArticleContent>
@@ -50,3 +57,21 @@ const { Content } = await render(entry);
     </div>
   </nav>
 </Layout>
+
+<style is:global>
+  /* Override the global 680px cap from public/assets/styles.css for
+     article pages only — listing/section pages keep the narrower column. */
+  .container--wide {
+    max-width: 1240px !important;
+  }
+  .main--article {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  @media (max-width: 768px) {
+    .main--article {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+</style>

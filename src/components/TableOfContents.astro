@@ -1,0 +1,174 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+  minDepth?: number;
+  maxDepth?: number;
+}
+
+const { headings, minDepth = 2, maxDepth = 3 } = Astro.props;
+
+const filtered = headings.filter(
+  (h) => h.depth >= minDepth && h.depth <= maxDepth
+);
+---
+
+{
+  filtered.length > 0 && (
+    <aside class="toc" aria-label="Table of contents">
+      <div class="toc-inner">
+        <div class="toc-title">On this page</div>
+        <nav>
+          <ul class="toc-list">
+            {filtered.map((heading) => (
+              <li class={`toc-item depth-${heading.depth}`}>
+                <a href={`#${heading.slug}`} data-toc-link={heading.slug}>
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </aside>
+  )
+}
+
+<script>
+  function setupToc() {
+    const links = document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]");
+    if (!links.length) return () => {};
+
+    const linkBySlug = new Map<string, HTMLAnchorElement>();
+    links.forEach((link) => {
+      const slug = link.dataset.tocLink;
+      if (slug) linkBySlug.set(slug, link);
+    });
+
+    const headings = Array.from(linkBySlug.keys())
+      .map((slug) => document.getElementById(slug))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (!headings.length) return () => {};
+
+    let activeSlug: string | null = null;
+    const setActive = (slug: string | null) => {
+      if (slug === activeSlug) return;
+      activeSlug = slug;
+      links.forEach((link) => link.classList.remove("active"));
+      if (slug) linkBySlug.get(slug)?.classList.add("active");
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length > 0) {
+          setActive(visible[0].target.id);
+          return;
+        }
+        // Otherwise, find the last heading above the viewport
+        const scrollY = window.scrollY + 120;
+        let current: string | null = null;
+        for (const h of headings) {
+          if (h.offsetTop <= scrollY) current = h.id;
+          else break;
+        }
+        setActive(current);
+      },
+      { rootMargin: "-80px 0px -70% 0px", threshold: [0, 1] }
+    );
+
+    headings.forEach((h) => observer.observe(h));
+    return () => observer.disconnect();
+  }
+
+  let cleanupToc: (() => void) | undefined;
+  document.addEventListener("astro:page-load", () => {
+    cleanupToc?.();
+    cleanupToc = setupToc();
+  });
+  document.addEventListener("astro:before-swap", () => {
+    cleanupToc?.();
+  });
+</script>
+
+<style>
+  .toc {
+    font-family: "IBM Plex Sans", sans-serif;
+    color: #a8a8a8;
+    font-size: 0.85rem;
+  }
+
+  .toc-inner {
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    padding-left: 1.25rem;
+    border-left: 1px solid #2a2a2a;
+  }
+
+  .toc-title {
+    color: #fff;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.875rem;
+  }
+
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toc-item {
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  .toc-item a {
+    display: block;
+    padding: 0.3rem 0;
+    color: #8a8a8a;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    margin-left: -1.25rem;
+    padding-left: 1.25rem;
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .toc-item a:hover {
+    color: #d4d4d4;
+  }
+
+  .toc-item a.active {
+    color: #4a9eff;
+    border-left-color: #4a9eff;
+  }
+
+  .toc-item.depth-3 a {
+    padding-left: 2.25rem;
+    font-size: 0.8rem;
+  }
+
+  .toc-item.depth-4 a {
+    padding-left: 3.25rem;
+    font-size: 0.8rem;
+    color: #6e6e6e;
+  }
+
+  /* Hide on small screens where the grid collapses */
+  @media (max-width: 1100px) {
+    .toc {
+      display: none;
+    }
+  }
+</style>
